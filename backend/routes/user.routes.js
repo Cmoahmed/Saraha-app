@@ -1,0 +1,10 @@
+const router = require('express').Router();
+const controller = require('../controllers/user.controller');
+const { asyncHandler: wrap } = require('../middleware/error.middleware');
+router.post('/signup', wrap(controller.signup));
+router.post('/login', require('../middleware/course-rate-limit').limiter('legacy-login', 50, 15 * 60000), wrap(controller.login));
+router.use(require('../middleware/legacy-ownership'));
+router.patch('/:id', wrap(controller.update));
+router.delete('/', wrap(controller.remove));
+router.get('/', wrap(controller.get));
+module.exports = router;

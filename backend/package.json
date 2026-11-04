@@ -1,0 +1,53 @@
+{
+  "name": "sticky-notes-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test test/*.test.js",
+    "test:postman": "node scripts/test-postman.js",
+    "check:course": "node scripts/build-course-checklist.js",
+    "build:postman": "node scripts/build-postman.js",
+    "migrate:phones": "node scripts/migrate-phones.js",
+    "check:part2": "node scripts/build-part2-audit.js",
+    "demo:redis": "node scripts/redis-demo.js",
+    "build:fixtures": "node scripts/build-part2-fixtures.js",
+    "verify:postman-m": "node scripts/verify-live-postman-m.js",
+    "verify:postman-l": "node scripts/verify-live-postman-l.js",
+    "typecheck": "tsc -p learning/tsconfig.json --noEmit",
+    "build:learning": "tsc -p learning/tsconfig.json",
+    "demo:learning": "npm run build:learning && node learning/dist/messages.js",
+    "dev:course": "node scripts/dev-course.js",
+    "watch:learning": "tsc -p learning/tsconfig.json --watch",
+    "test:part3": "node --test test/part3.test.js",
+    "build:part3": "node scripts/build-part3-postman.js",
+    "test:postman:part3": "node scripts/test-part3-postman.js"
+  },
+  "dependencies": {
+    "argon2": "^0.45.1",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.7.2",
+    "google-auth-library": "^11.3.2",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.19.0",
+    "multer": "^2.5.0",
+    "nodemailer": "^10.3.1",
+    "redis": "^6.3.1",
+    "sharp": "^0.35.5",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6",
+    "newman": "^6.2.3",
+    "supertest": "^7.1.1",
+    "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,16 @@
+const router = require('express').Router();
+const { z } = require('zod');
+const { validate } = require('../middleware/validate');
+const { authenticate } = require('../middleware/authentication');
+const { asyncHandler: wrap } = require('../middleware/error.middleware');
+const { rateLimit } = require('express-rate-limit');
+const c = require('../controllers/recovery.controller');
+const { password, email } = require('../validations/auth.schema');
+const code = z.string().regex(/^\d{6}$/);
+router.use(rateLimit({ windowMs: 15 * 60000, limit: 40, standardHeaders: 'draft-7', legacyHeaders: false }));
+router.post('/email/request', require('../middleware/email-workflow'), authenticate, validate(z.strictObject({})), wrap(c.requestVerification));
+router.post('/email/confirm', authenticate, validate(z.strictObject({ code })), wrap(c.confirm));
+router.post('/password/forgot', validate(z.strictObject({ email })), wrap(c.forgot));
+router.post('/password/verify', validate(z.strictObject({ email, code })), wrap(c.verifyRecovery));
+router.post('/password/reset', validate(z.strictObject({ email, password, resetToken: z.string().regex(/^[a-f\d]{64}$/) })), wrap(c.reset));
+module.exports = router;

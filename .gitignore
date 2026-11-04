@@ -1,0 +1,19 @@
+# Course Section B - Question 3 - Exclude dependencies, secrets, backups and private uploads
+node_modules/
+.env
+.env.*
+!.env.example
+safety-backup-*/
+backend/test-results/
+*.log
+.npm-cache/
+audit-checkpoint-*/
+backend/uploads/
+.frontend-google-staging/
+frontend-google-checkpoint-*/
+part3-source-checkpoint-*/
+final-audit-checkpoint-*/
+backend/learning/dist/
+*.pem
+*.dump
+*.rdb

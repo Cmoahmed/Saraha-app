@@ -1,0 +1,9 @@
+{
+  // Course Section B - Question 12 - Strict checking, bounded inputs and separate generated output
+  "compilerOptions": {
+    "target": "ES2022", "module": "CommonJS", "strict": true,
+    "rootDir": "src", "outDir": "dist", "noEmitOnError": true,
+    "skipLibCheck": true, "types": []
+  },
+  "include": ["src/**/*.ts"]
+}

@@ -1,0 +1,21 @@
+// Authentication Question 2 - Folder Structure
+const router = require('express').Router();
+const c = require('../controllers/auth.controller');
+const s = require('../validations/auth.schema');
+const { validate } = require('../middleware/validate');
+const { authenticate } = require('../middleware/authentication');
+const { roles } = require('../middleware/authorization');
+const { asyncHandler: wrap } = require('../middleware/error.middleware');
+const { rateLimit } = require('express-rate-limit');
+const limit = require('../middleware/course-rate-limit').limiter('auth', 50, 15 * 60 * 1000);
+router.post('/signup', limit, validate(s.signup), wrap(c.signup));
+router.post('/login', limit, validate(s.login), wrap(c.login));
+router.post('/google', limit, validate(s.google), wrap(c.google));
+router.post('/refresh', limit, validate(s.refresh), wrap(c.refresh));
+router.get('/profile', authenticate, c.profile);
+router.patch('/profile', authenticate, validate(s.profile), wrap(c.update));
+router.delete('/account', authenticate, wrap(c.remove));
+router.post('/logout', authenticate, wrap(c.logout));
+router.post('/logout-all', authenticate, wrap(c.logoutAll));
+router.get('/admin/status', authenticate, roles('admin'), (req, res) => res.json({ message: 'Admin role verified' }));
+module.exports = router;

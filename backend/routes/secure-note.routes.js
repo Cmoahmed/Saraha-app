@@ -1,0 +1,20 @@
+const router = require('express').Router();
+const c = require('../controllers/note.controller');
+const { authenticate } = require('../middleware/authentication');
+const { validate: v } = require('../middleware/validate');
+const s = require('../validations/note.schema');
+const { asyncHandler: w } = require('../middleware/error.middleware');
+// Saraha application - reuse Assignment 8 operations with verified ownership.
+router.use(authenticate, v(s.query, 'query'), (req, res, next) => { req.query.userId = req.auth.user.id; next(); });
+router.patch('/all', v(s.all), w(c.updateAll));
+router.get('/paginate-sort', w(c.paginate));
+router.get('/note-by-content', w(c.byContent));
+router.get('/note-with-user', w(c.withUser));
+router.get('/aggregate', w(c.aggregate));
+router.put('/replace/:noteId', v(s.params, 'params'), v(s.create), w(c.replace));
+router.post('/', v(s.create), w(c.create));
+router.delete('/', w(c.removeAll));
+router.patch('/:noteId', v(s.params, 'params'), v(s.update), w(c.update));
+router.delete('/:noteId', v(s.params, 'params'), w(c.remove));
+router.get('/:noteId', v(s.params, 'params'), w(c.get));
+module.exports = router;

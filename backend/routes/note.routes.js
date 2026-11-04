@@ -1,0 +1,16 @@
+const router = require('express').Router();
+const c = require('../controllers/note.controller');
+const { asyncHandler: wrap } = require('../middleware/error.middleware');
+router.use(require('../middleware/legacy-ownership'));
+router.patch('/all', wrap(c.updateAll));
+router.get('/paginate-sort', wrap(c.paginate));
+router.get('/note-by-content', wrap(c.byContent));
+router.get('/note-with-user', wrap(c.withUser));
+router.get('/aggregate', wrap(c.aggregate));
+router.put('/replace/:noteId', wrap(c.replace));
+router.post('/', wrap(c.create));
+router.delete('/', wrap(c.removeAll));
+router.patch('/:noteId', wrap(c.update));
+router.delete('/:noteId', wrap(c.remove));
+router.get('/:noteId', wrap(c.get));
+module.exports = router;

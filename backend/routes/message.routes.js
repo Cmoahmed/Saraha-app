@@ -1,0 +1,15 @@
+const router = require('express').Router();
+const { rateLimit } = require('express-rate-limit');
+const c = require('../controllers/message.controller');
+const s = require('../validations/message.schema');
+const { validate: v } = require('../middleware/validate');
+const { authenticate } = require('../middleware/authentication');
+const { asyncHandler: w } = require('../middleware/error.middleware');
+router.get('/public/:recipient', v(s.recipient, 'params'), w(c.publicProfile));
+router.post('/public/:recipient', rateLimit({ windowMs: 60000, limit: 10, standardHeaders: 'draft-7', legacyHeaders: false }), v(s.recipient, 'params'), v(s.send), w(c.send));
+router.use(authenticate);
+router.get('/', v(s.pagination, 'query'), w(c.inbox));
+router.get('/:messageId', v(s.params, 'params'), w(c.get));
+router.patch('/:messageId', v(s.params, 'params'), v(s.read), w(c.read));
+router.delete('/:messageId', v(s.params, 'params'), w(c.remove));
+module.exports = router;
